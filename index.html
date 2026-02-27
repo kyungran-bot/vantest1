@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanitus Asset Node</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- 상태 0: 인트로 시퀀스 -->
+    <section id="intro-screen" class="screen active">
+        <div class="intro-container">
+            <div class="obj-group left">
+                <div class="scroll-content">
+                    <img src="obj1.svg" class="intro-obj">
+                    <img src="obj2.svg" class="intro-obj">
+                    <img src="obj3.svg" class="intro-obj">
+                    <img src="obj4.svg" class="intro-obj">
+                    <img src="obj5.svg" class="intro-obj">
+                    <!-- Duplicate for infinite loop -->
+                    <img src="obj1.svg" class="intro-obj">
+                    <img src="obj2.svg" class="intro-obj">
+                    <img src="obj3.svg" class="intro-obj">
+                    <img src="obj4.svg" class="intro-obj">
+                    <img src="obj5.svg" class="intro-obj">
+                </div>
+            </div>
+            <img src="logo0.svg" alt="Logo" class="intro-logo">
+            <div class="obj-group right">
+                <div class="scroll-content">
+                    <img src="obj6.svg" class="intro-obj">
+                    <img src="obj7.svg" class="intro-obj">
+                    <img src="obj8.svg" class="intro-obj">
+                    <img src="obj9.svg" class="intro-obj">
+                    <img src="obj10.svg" class="intro-obj">
+                    <!-- Duplicate for infinite loop -->
+                    <img src="obj6.svg" class="intro-obj">
+                    <img src="obj7.svg" class="intro-obj">
+                    <img src="obj8.svg" class="intro-obj">
+                    <img src="obj9.svg" class="intro-obj">
+                    <img src="obj10.svg" class="intro-obj">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 상태 1: 첫 번째 이미지 -->
+    <section id="screen1" class="screen active">
+        <img src="maintest.png" alt="Screen 1" id="img1">
+    </section>
+
+    <!-- 상태 2: 영상 재생 1 -->
+    <section id="video-screen" class="screen">
+        <video id="main-video" playsinline>
+            <source src="0001-0110.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </section>
+
+    <!-- 상태 3: 두 번째 이미지 + 타이핑 효과 -->
+    <section id="screen2" class="screen">
+        <img src="test0.png" alt="Screen 2" id="img2">
+        <div id="typing-overlay">
+            <span id="typing-text" style="cursor: pointer;"></span>
+        </div>
+    </section>
+
+    <!-- 상태 4: 영상 재생 2 -->
+    <section id="video-screen2" class="screen">
+        <video id="second-video" playsinline>
+            <source src="00100-0150.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </section>
+
+    <!-- 상태 5: 세 번째 이미지 + 로그인 폼 & 상품 카테고리 -->
+    <section id="screen3" class="screen">
+        <img src="test2.png" alt="Screen 3" id="img3">
+        <div id="imac-overlay-container" class="imac-overlay">
+            <!-- 로그인 화면 -->
+            <div id="imac-login" class="imac-contents active">
+                <img src="logo0.svg" alt="Login Logo" class="login-logo">
+                <div class="login-container">
+                    <p class="login-msg"></p>
+                    <input type="text" id="username-input" placeholder="이름을 입력하세요">
+                    <button id="submit-btn" class="i-btn">submit</button>
+                </div>
+            </div>
+
+            <!-- 상품 카테고리 화면 -->
+            <div id="imac-products" class="imac-contents">
+                <div class="products-header">
+                    <img src="vanlogo.svg" alt="Logo" class="header-logo-img">
+                </div>
+                <div class="products-slider" id="products-slider">
+                    <!-- 상품 아이템 10개 (JS에서 생성) -->
+                    <div class="product-list">
+                    </div>
+                </div>
+                <div class="products-footer">
+                    <!-- 푸터 문구 모두 삭제 -->
+                </div>
+            </div>
+
+            <!-- 옥션 룸 화면 -->
+            <div id="imac-auction-room" class="imac-contents">
+                <div class="auction-header">
+                    <span id="auction-room-title">AUCTION ROOM #404</span>
+                    <button id="close-auction-btn" class="close-btn">&times;</button>
+                </div>
+                <div class="auction-body">
+                    <div class="auction-left">
+                        <div class="item-image-container">
+                            <i class="corner-dot top-left"></i>
+                            <i class="corner-dot top-right"></i>
+                            <i class="corner-dot bottom-left"></i>
+                            <i class="corner-dot bottom-right"></i>
+                            <span class="item-label"></span>
+                            <div id="item-3d-viewer" class="item-3d-placeholder">
+                                <!-- 3D Canvas will be injected here -->
+                            </div>
+                        </div>
+                        <div class="item-info-section">
+                            <div class="info-row main">
+                                <h2 id="auction-item-name">Product Name</h2>
+                                <span id="auction-item-index" class="item-index-display">00</span>
+                            </div>
+                            <div class="info-row specs">
+                                <span id="item-year">Year</span>
+                                <span class="spec-divider">/</span>
+                                <span id="item-material">Material</span>
+                                <span class="spec-divider">/</span>
+                                <span id="item-condition">Condition</span>
+                            </div>
+                            <div class="info-row sub">
+                                <p id="artifact-description">경매품을 감상한 후 서사를 확인해보세요</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="auction-right">
+                        <div class="bidding-tabs">
+                            <div class="tab active">LIVE BIDDING</div>
+                            <div class="tab-spacer"></div>
+                            <div class="tab-extra">REALTIME</div>
+                        </div>
+                        <div class="bidding-header">
+                            <span>RANK / BIDDER</span>
+                            <span>PRICE (DZC)</span>
+                        </div>
+                        <div class="bidding-list">
+                            <div class="bidding-item">
+                                <span class="bid-rank">1. 772</span>
+                                <span class="bid-price">11,299 DZC</span>
+                            </div>
+                            <div class="bidding-item sub">
+                                <span class="bid-rank">2. 바니타스</span>
+                                <span class="bid-price sub">4,225 DZC</span>
+                            </div>
+                            <div class="bidding-item sub">
+                                <span class="bid-rank">3. 일일사 파이팅</span>
+                                <span class="bid-price sub">2,207 DZC</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="auction-footer">
+                    <button id="check-narrative-btn" class="action-btn skip">Check the narrative</button>
+                    <button id="start-bid-btn" class="action-btn bid">Start to BID</button>
+                </div>
+            </div>
+
+            <!-- 서사(Narrative) 화면 -->
+            <div id="imac-narrative" class="imac-contents">
+                <div class="narrative-layout">
+                    <div class="narrative-sidebar left" id="narrative-sidebar-left"></div>
+
+                    <div class="narrative-main">
+                        <div class="narrative-3d-container" id="narrative-central-viewer">
+                            <!-- 메인 3D 모델 -->
+                        </div>
+                        <div class="narrative-text-content">
+                            <h1 id="narrative-title">Item Name</h1>
+                            <p id="narrative-description">서사 내용이 여기에 들어갑니다.</p>
+                            <div class="narrative-appraisal">
+                                <div class="appraisal-box">
+                                    <span class="appraisal-label">VAN 의 감정가</span>
+                                    <span id="narrative-price-van1" class="appraisal-value">0 DZC</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="narrative-footer">
+                            <button id="narrative-back-btn" class="back-link">BACK TO AUCTION</button>
+                        </div>
+                    </div>
+
+                    <div class="narrative-sidebar right" id="narrative-sidebar-right"></div>
+                </div>
+            </div>
+
+            <!-- 비딩 게임 화면 -->
+            <div id="imac-bidding-game" class="imac-contents">
+                <div class="game-header">
+                    <div id="game-timer" class="game-timer">01 : 00</div>
+                </div>
+
+                <div class="game-body">
+                    <div class="game-item-view">
+                        <div id="game-3d-viewer"></div>
+                    </div>
+
+                    <div class="game-item-info">
+                        <h2 id="game-item-name">Item Name</h2>
+                        <p id="game-item-desc"></p>
+                    </div>
+
+                    <div class="game-interaction">
+                        <p class="game-question">얼마를 투자하시겠습니까?</p>
+                        <div class="slider-container">
+                            <input type="range" id="game-price-slider" class="price-slider" min="0" max="10000"
+                                value="0">
+                            <div class="slider-labels">
+                                <span>0.00</span>
+                                <span>10,000.00</span>
+                            </div>
+                        </div>
+                        <div class="current-value-display">
+                            Your Value: <span id="game-current-value">0</span> DZC
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-footer">
+                    <button id="game-reset-btn" class="game-btn">RESET</button>
+                    <button id="game-submit-btn" class="game-btn submit-btn">SUBMIT</button>
+                </div>
+
+                <!-- 결과 레이어 -->
+                <div id="game-result-overlay" class="result-overlay">
+                    <h1 id="result-status">TIME UP!</h1>
+                    <div id="game-result-text">
+                        <!-- Result details will be injected here -->
+                    </div>
+                    <button id="check-rank-btn" class="game-btn" style="margin-top: 2vw;">Check my rank</button>
+                    <button id="game-check-narrative-btn" class="game-btn" style="margin-top: 1vw;">Check the
+                        narrative</button>
+                </div>
+            </div>
+
+            <!-- 순위 확인 화면 -->
+            <div id="imac-ranking" class="imac-contents">
+                <div class="ranking-layout">
+                    <div class="ranking-sidebar left" id="ranking-sidebar-left"></div>
+                    <div class="ranking-container">
+                        <div class="bidding-tabs" style="margin-bottom: 0;">
+                            <div class="tab active">Live Rank</div>
+                            <div class="tab-spacer"></div>
+                            <div class="tab-extra">REALTIME</div>
+                        </div>
+                        <div class="bidding-header">
+                            <span>RANK / BIDDER</span>
+                            <span>PRICE (DZC)</span>
+                        </div>
+                        <div class="ranking-table">
+                            <div class="ranking-scroll-body">
+                                <div class="ranking-row main-rank">
+                                    <span class="rank-name">1순위 kk님</span>
+                                    <span class="rank-value">11,299 DZC</span>
+                                </div>
+                                <div class="ranking-row sub-rank">
+                                    <span class="rank-name">2순위 요빈님</span>
+                                    <span class="rank-value">8,500 DZC</span>
+                                </div>
+                                <div class="ranking-row sub-rank">
+                                    <span class="rank-name">3순위 란성재님</span>
+                                    <span class="rank-value">4,225 DZC</span>
+                                </div>
+                                <div class="ranking-row sub-rank">
+                                    <span class="rank-name">4순위 돌아 님</span>
+                                    <span class="rank-value">3,390 DZC</span>
+                                </div>
+                                <!-- 스크롤 확인을 위한 더미 데이터 -->
+                                <div class="ranking-row sub-rank">
+                                    <span class="rank-name">5순위 참가자 A</span>
+                                    <span class="rank-value">2,207 DZC</span>
+                                </div>
+                                <div class="ranking-row sub-rank">
+                                    <span class="rank-name">6순위 참가자 B</span>
+                                    <span class="rank-value">1,540 DZC</span>
+                                </div>
+                            </div>
+                            <div class="ranking-footer-row">
+                                <button id="ranking-prev-btn" class="ranking-nav-btn">이전으로</button>
+                                <button id="ranking-home-btn" class="ranking-nav-btn">처음으로</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ranking-sidebar right" id="ranking-sidebar-right"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
